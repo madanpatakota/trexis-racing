@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { member } from './member.model';
@@ -15,7 +15,9 @@ export class AppService {
   api = 'http://localhost:8000';
   username: string = '';
 
-  updateMember = new Subject<any>();
+  openModelUp = new Subject<any>();
+  editEvent = new Subject<any>();
+  modelPopupClose = new EventEmitter<void>();
 
   constructor(private http: HttpClient) { }
 
@@ -32,12 +34,16 @@ export class AppService {
     .pipe(catchError(this.handleError));
   }
 
-  public editMember(member:member){
-     return this.http.put('${this.api}/members/'+ member.id , member);
+  public editMember(member:member,  id:number){
+     return this.http.put("http://localhost:8000/members/"+ id , member);
   }
 
   public insertMember(member:member){
-    return this.http.put('${this.api}/members' , member);
+    return this.http.post('http://localhost:8000/members' , member);
+ }
+
+ public RemoveMember(member:member){
+  return this.http.delete(`${this.api}/members/`+member.id);
  }
 
   setUsername(name: string): void {
@@ -45,23 +51,6 @@ export class AppService {
   }
 
     routerStatus = new Subject<any>();
-    
-  //   getLoggedIn(){
-  //   let userName = localStorage.getItem("username");
-  //   let isUsersExists = false;
-  //   this.getMembers().subscribe((x:member[])=>{
-  //     isUsersExists = x.filter(user => user.firstName === userName).length > 0 ? true : false;
-  //     this.routerStatus.next(isUsersExists);
-  //   })
-  // }
-
-  // getLoggedIn(userName:string){
-  //   let isUsersExists = false;
-  //    this.getMembers().subscribe((x:member[])=>{
-  //     isUsersExists = x.filter(user => user.firstName === userName).length > 0 ? true : false;
-  //     this.routerStatus.next(isUsersExists);
-  //   })
-  // }
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

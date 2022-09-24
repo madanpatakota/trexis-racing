@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
 import { AppService } from '../app.service';
 import { Router } from '@angular/router';
 import { member } from '../member.model';
@@ -8,39 +8,60 @@ import { team } from '../team.model';
 @Component({
   selector: 'app-members',
   templateUrl: './members.component.html',
-  styleUrls: ['./members.component.css']
+  styleUrls: ['./members.component.css'],
 })
 export class MembersComponent implements OnInit {
-
   members: member[] = [];
 
-  constructor(public appService: AppService, private router: Router) { }
+  //@ViewChild("button1") button1 : ElementRef
+
+  constructor(public appService: AppService, private router: Router) {}
 
   ngOnInit(): void {
-    this.getMembers()
+    this.getMembers();
+  }
+  isShow = true;
+  evtModelpopUpClose() {
+    // model popup close..
   }
 
-  editMember(member:Member){
-    
-    this.appService.getTeams().subscribe((teams:team[])=>{
-      let teamId = teams.filter((team)=> team.teamName == member.team)[0].id;
-      member.status =  member.status == "Active" ? true : false;
-      member.team = teamId;
-      this.appService.updateMember.next(member);
-    })
+  // editMember(member: Member) {
+  //   this.appService.getTeams().subscribe((teams: team[]) => {
+  //     this.appService.updateMember.next(member);
+  //   });
+  // }
 
-     
+  goToAddMemberForm() {}
+
+  isaddNew = false;
+
+  OpenModelUp(modelType: string, data?: any) {
+    if (modelType == 'New') {
+      this.appService.openModelUp.next({
+        modelType: modelType,
+        ID: this.members.length + 1,
+      });
+    } else {
+      this.appService.openModelUp.next({ modelType: modelType, Data: data });
+    }
   }
 
-  goToAddMemberForm() {
-    
+  RemoveMember(member: member) {
+    this.appService.RemoveMember(member).subscribe(() => {
+      this.getMembers();
+    });
   }
 
-  SaveMember(){
-    
+  getMembers() {
+    this.appService
+      .getMembers()
+      .subscribe((members: member[]) => (this.members = members));
   }
 
-  getMembers(){
-    this.appService.getMembers().subscribe((members: member[]) => (this.members = members));
-  }
+  // SaveMember() {
+  //   this.appService.editEvent.next({
+  //     status: 'Save',
+  //     ID: this.members.length + 1,
+  //   });
+  // }
 }

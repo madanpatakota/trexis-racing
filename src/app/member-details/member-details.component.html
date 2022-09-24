@@ -1,45 +1,132 @@
-<div>
-  <!-- <h3 class="text-center lead">Add Member to Racing Team</h3> -->
-  <br />
-  <!--Template Driven Form or Model Driven Form?-->
-  <form [formGroup]="memberDetailsForm" (ngSubmit)="onSubmit()">
-    <div>
-      <div class="row">
-        <div class="col-md-6">
-          <input type="text" class="form-control" formControlName="firstName" id="firstName" placeholder="First Name" />
-        </div>
-        <div class="col-md-6">
-          <input type="text" class="form-control" formControlName="lastName" id="lastName" placeholder="Last Name" />
-        </div>
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">
+        Add Member to Racing Team
+      </h5>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <!-- <h3 class="text-center lead">Add Member to Racing Team</h3> -->
+        <br />
+        <!--Template Driven Form or Model Driven Form?-->
+        <form [formGroup]="memberDetailsForm" (ngSubmit)="onSubmit()">
+          <div>
+            <div class="row">
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="firstName"
+                  id="firstName"
+                  placeholder="First Name"
+                  required
+                />
+                <span
+                  *ngIf="
+                    memberDetailsForm.get('firstName')?.invalid &&
+                    memberDetailsForm.get('firstName')?.touched
+                  "
+                  class="validation-message"
+                  >Please enter the first name</span
+                >
+              </div>
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="lastName"
+                  id="lastName"
+                  placeholder="Last Name"
+                  required
+                />
+                <span
+                  *ngIf="
+                    memberDetailsForm.get('lastName')?.invalid &&
+                    memberDetailsForm.get('lastName')?.touched
+                  "
+                  class="validation-message"
+                  >Please enter the last name</span
+                >
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-md-6">
+                <input
+                  formControlName="jobTitle"
+                  type="text"
+                  class="form-control"
+                  id="jobTitle"
+                  placeholder="Job Title"
+                  required
+                />
+                <span
+                  *ngIf="
+                    memberDetailsForm.get('jobTitle')?.invalid &&
+                    memberDetailsForm.get('jobTitle')?.touched
+                  "
+                  class="validation-message"
+                  >Please enter the jobTitle</span
+                >
+              </div>
+              <!--We may have to make a service call to get this list-->
+              <div class="col-md-6">
+                <select
+                  id="team"
+                  formControlName="rteam"
+                  class="form-control"
+                  required
+                >
+                  <option *ngFor="let team of teams" [value]="team.id">
+                    {{ team.teamName }}
+                  </option>
+                </select>
+                <span
+                  *ngIf="
+                    memberDetailsForm.get('jobTitle')?.invalid &&
+                    memberDetailsForm.get('jobTitle')?.touched
+                  "
+                  class="validation-message"
+                  >Please enter the team name</span
+                >
+              </div>
+            </div>
+            <br />
+            <div class="form-group col-md-6">
+              <div class="row">
+                <label id="activeStatus" class="md-check lead">
+                  <input value="Active" formControlName="status" type="radio" />
+                  Active
+                </label>
+                <label class="md-check lead">
+                  <input
+                    value="InActive"
+                    formControlName="status"
+                    type="radio"
+                  />
+                  Inactive
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
-      <br />
-      <div class="row">
-        <div class="col-md-6">
-          <input formControlName="jobTitle" type="text" class="form-control" id="jobTitle" placeholder="Job Title" />
-        </div>
-        <!--We may have to make a service call to get this list-->
-        <div class="col-md-6">
-          <select id="team" formControlName="rteam" class="form-control">
-            <option *ngFor="let team of teams" [value]="team.id">{{team.teamName}}</option>
-          </select>
-        </div>
-      </div>
-      <br />
-      <div class="form-group col-md-6">
-        <div class="row">
-          <label id="activeStatus" class="md-check lead">
-            <input formControlName="status" type="radio" /> Active 
-          </label>
-          <label class="md-check lead">
-            <input formControlName="status" type="radio" /> Inactive
-          </label>
-        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button [disabled]="memberDetailsForm.invalid"  *ngIf="statusType == 'New'"  (click)="saveMember()"   type="button"  class="btn btn-primary btnmodal">Save</button>
+        <button [disabled]="memberDetailsForm.invalid"  *ngIf="statusType == 'Edit'" (click)="saveMember()"  type="button"  class="btn btn-primary btnmodal">Edit</button>
       </div>
     </div>
-    <!--Disable if form is invalid-->
-
-    <!-- <button type="submit" (click)="SaveMember()" class="btn btn-primary pull-right">
-      Save Member
-    </button> -->
-  </form>
+  </div>
 </div>

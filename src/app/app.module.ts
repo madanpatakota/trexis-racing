@@ -24,7 +24,7 @@ const ROUTES:Routes = [
   {
     path: 'members',
     component: MembersComponent,
-    canActivate: [CanActiveGuard]
+    canActivate: [CanActiveGuard],
   },
   {
     path: 'login',

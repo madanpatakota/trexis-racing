@@ -2,14 +2,6 @@
   "members": [
     {
       "id": 2,
-      "firstName": "Alex",
-      "lastName": "Sainz",
-      "jobTitle": "Driver",
-      "team": "World Endurance Championship - Car 99",
-      "status": "Active"
-    },
-    {
-      "id": 3,
       "firstName": "Jeb",
       "lastName": "Jackson",
       "jobTitle": "Reserve Driver",
@@ -17,7 +9,7 @@
       "status": "Active"
     },
     {
-      "id": 4,
+      "id": 3,
       "firstName": "Nicolas",
       "lastName": "Rvera",
       "jobTitle": "Driver",
@@ -25,7 +17,7 @@
       "status": "Active"
     },
     {
-      "id": 5,
+      "id": 4,
       "firstName": "Max",
       "lastName": "Verstappen",
       "jobTitle": "Driver",

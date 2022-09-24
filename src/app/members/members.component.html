@@ -1,7 +1,12 @@
 <div class="container-fluid">
-  <button id="memberdetailsModal" class="btn btn-primary pull-right" data-toggle="modal"
-    data-target="#memberdetailsModal">Add Member</button>
-  <table class="table">
+  <!-- <button id="memberdetailsModal" class="btn btn-primary pull-right" data-toggle="modal"
+    data-target="#memberdetailsModal">Add Member</button> -->
+  
+    <button (click)="OpenModelUp('New')" type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#membersModel">
+      Add Member
+    </button>
+  
+    <table class="table">
     <thead>
       <tr>
         <th>Member ID</th>
@@ -20,20 +25,23 @@
         <td>{{member?.jobTitle}}</td>
         <td>{{member?.team}}</td>
         <td>{{member?.status}}</td>
-        <td><button class="btn btn-primary"  data-toggle="modal" data-target="#exampleModal" (click)="editMember(member)">Edit</button></td>
+        <td><button class="btn btn-warning"  data-toggle="modal" data-target="#membersModel" (click)="OpenModelUp('Edit',member)">Edit</button></td>
+        <td><button class="btn btn-danger"  data-toggle="modal" (click)="RemoveMember(member)">Remove</button></td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
   Launch demo modal
-</button>
+</button> -->
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div *ngIf="isShow">
+<div class="modal fade" id="membersModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <app-member-details></app-member-details>
+  <!-- <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add Member to Racing Team</h5>
@@ -42,12 +50,14 @@
         </button>
       </div>
       <div class="modal-body">
-        <app-member-details></app-member-details>
+        <app-member-details (modelpopupClose)="evtModelpopUpClose()"></app-member-details>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" (click)="SaveMember()" class="btn btn-primary">Save Member</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="getData()">Close</button>
+        <button *ngIf="isaddNew" type="button" (click)="SaveMember()" class="btn btn-primary btnmodal">Save</button>
+        <button *ngIf="!isaddNew"  type="button" (click)="EditMember()" class="btn btn-primary btnmodal">Edit</button>
       </div>
     </div>
-  </div>
+  </div> -->
+</div>
 </div>
